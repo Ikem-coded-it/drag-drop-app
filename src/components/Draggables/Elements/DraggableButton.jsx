@@ -1,8 +1,11 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import { ItemTypes } from '../../../constants/DraggableTypes';
+import { useDragContext } from '../../../context/DragContext';
 
 export default function DraggableButton() {
+  const { startDrag } = useDragContext()
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.BUTTON,
     item: { type: ItemTypes.BUTTON },

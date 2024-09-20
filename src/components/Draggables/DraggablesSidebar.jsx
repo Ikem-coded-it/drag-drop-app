@@ -3,7 +3,8 @@ import StartDragElement from "./StartDragElement"
 
 const elements = [
     {
-        type: ItemTypes.BUTTON
+        type: ItemTypes.BUTTON,
+        name: `Draggable ${ItemTypes?.BUTTON}`
     }
 ]
 

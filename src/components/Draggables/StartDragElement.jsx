@@ -4,7 +4,7 @@ import { useDragContext } from '../../context/DragContext';
 import { useEffect } from 'react';
 
 export default function StartDragElement({ element }) {
-    const { startDrag } = useDragContext()
+    const { startDrag, endDrag } = useDragContext()
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: element.type,
@@ -12,6 +12,9 @@ export default function StartDragElement({ element }) {
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
+        end: () => {
+            endDrag()
+        }
     }));
 
     useEffect(() => {
@@ -20,6 +23,10 @@ export default function StartDragElement({ element }) {
 
     return (
         <div
+            onDragStart={() => {
+                console.log("dragging: ", element)
+                startDrag(element)
+            }}
             ref={drag}
             style={{
                 padding: '10px',

@@ -3,14 +3,27 @@ import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
 import GridLayout, { Responsive as ResponsiveGridLayout } from "react-grid-layout";
 import { useDrop } from "react-dnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDragContext } from "../../context/DragContext";
 import DynamicElement from "../Draggables/DynamicElement";
 import DraggablesSidebar from "../Draggables/DraggablesSidebar";
+import { ItemTypes } from "../../constants/DraggableTypes";
 
 export default function MyGrid () {
     const [components, setComponents] = useState([])
     const { draggedItem, endDrag } = useDragContext()
+
+    const [, drop] = useDrop(() => ({
+      accept: [ItemTypes.BUTTON],
+      drop: () => {
+        console.log("draggedItem: ",  draggedItem)
+        setComponents(prev => [...prev, draggedItem])
+      }
+    }))
+
+    useEffect(() => {
+      console.log("components: ", components)
+    }, [components])
 
     const layout = [
       { i: "a", x: 0, y: 0, w: 4, h: 3 },
@@ -18,25 +31,17 @@ export default function MyGrid () {
       { i: "c", x: 4, y: 0, w: 1, h: 2 },
     ];
 
-    const [, drop] = useDrop(() => ({
-      accept: "*",
-      drop: () => {
-        setComponents(prev => [...prev, draggedItem])
-        endDrag()
-      }
-    }))
-
     return (
       <div
-      style={{borderWidth: 1, borderColor: 'black'}} className={styles.container}
+      className={styles.container}
       ref={drop}
       >
         <GridLayout
           className="layout "
           layout={layout}
-          cols={10}
+          cols={12}
           rowHeight={20}
-          width={500}
+          width={800}
           compactType={null}
           resizeHandles={['n', 's', 'e', 'w']}
           // breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}

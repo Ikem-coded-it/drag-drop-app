@@ -9,11 +9,7 @@ function App() {
   return (
     <DndProvider backend={HTML5Backend}>
       <DragProvider>
-        <div style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: 20
-        }}>
+        <div>
           <MyGrid/>
           <DraggablesSidebar/>
         </div>
