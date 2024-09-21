@@ -11,25 +11,26 @@ import { ItemTypes } from "../../constants/DraggableTypes";
 
 export default function MyGrid () {
     const [components, setComponents] = useState([])
-    const { draggedItem, endDrag } = useDragContext()
+    const [layout, setLayout] = useState([
+      { i: "a", x: 0, y: 0, w: 4, h: 3 },
+      { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4, minH: 2 },
+      { i: "c", x: 4, y: 0, w: 1, h: 2 },
+    ])
 
     const [, drop] = useDrop(() => ({
-      accept: [ItemTypes.BUTTON],
-      drop: () => {
-        console.log("draggedItem: ",  draggedItem)
-        setComponents(prev => [...prev, draggedItem])
+      accept: [ItemTypes.BUTTON.type],
+      drop: (item) => {
+        console.log("draggedItem: ",  item)
+        setComponents(prev => [...prev, item])
+        setLayout(prev => [...prev, ItemTypes.BUTTON.defaultLayout])
       }
     }))
 
     useEffect(() => {
       console.log("components: ", components)
+      console.log("layout: ", layout)
     }, [components])
 
-    const layout = [
-      { i: "a", x: 0, y: 0, w: 4, h: 3 },
-      { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4, minH: 2 },
-      { i: "c", x: 4, y: 0, w: 1, h: 2 },
-    ];
 
     return (
       <div
@@ -44,9 +45,6 @@ export default function MyGrid () {
           width={800}
           compactType={null}
           resizeHandles={['n', 's', 'e', 'w']}
-          // breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-          // cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-          // useCSSTransforms={false}
         >
           <div key="a" className={styles.item}>
             <h1 style={{borderColor: 'blue', borderWidth: 1, height:'100%', width:'100%'}}>Heading</h1>
@@ -59,12 +57,11 @@ export default function MyGrid () {
           </div>
 
           {
-            components.length > 0 && components?.map((comp) => (
-              <div key="c" className={styles.item}>
+            components.length > 0 && components?.map((comp, i) => (
                 <DynamicElement
                 type={comp?.type}
+                key={i}
                 />
-              </div>
             ))
           }
         </GridLayout>

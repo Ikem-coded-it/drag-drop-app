@@ -8,7 +8,7 @@ export default function StartDragElement({ element }) {
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: element.type,
-        item: { type: element.type },
+        item: element,
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -18,22 +18,21 @@ export default function StartDragElement({ element }) {
     }));
 
     useEffect(() => {
-        isDragging && startDrag(element)
+        if(isDragging) {
+            console.log("dragging: ", element)
+            startDrag(element)
+        }
     }, [isDragging])
 
     return (
         <div
-            onDragStart={() => {
-                console.log("dragging: ", element)
-                startDrag(element)
-            }}
             ref={drag}
             style={{
-                padding: '10px',
+                padding: 10,
                 border: '1px solid #ccc',
                 borderRadius: '4px',
                 cursor: 'move',
-                display: 'inline-block',
+                display: 'flex',
                 opacity: isDragging ? 0.5 : 1,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -41,7 +40,7 @@ export default function StartDragElement({ element }) {
                 height: 50
             }}
         >
-            {element.name}
+            {element.displayName}
         </div>
     );
 }

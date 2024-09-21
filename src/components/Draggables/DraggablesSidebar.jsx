@@ -2,10 +2,7 @@ import { ItemTypes } from "../../constants/DraggableTypes"
 import StartDragElement from "./StartDragElement"
 
 const elements = [
-    {
-        type: ItemTypes.BUTTON,
-        name: `Draggable ${ItemTypes?.BUTTON}`
-    }
+    ItemTypes.BUTTON
 ]
 
 export default function DraggablesSidebar() {
@@ -19,8 +16,9 @@ export default function DraggablesSidebar() {
             padding: 20
         }}>
             {
-                elements.map((elem) => (
+                elements.map((elem, i) => (
                     <StartDragElement
+                    key={i}
                     element={elem}
                     />
                 ))

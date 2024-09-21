@@ -6,6 +6,7 @@ export default function DragProvider({ children }) {
   const [draggedItem, setDraggedItem] = useState(null);
 
   const startDrag = (item) => {
+    console.log("setting item: ", item)
     setDraggedItem(item);
   };
 
